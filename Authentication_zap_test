@@ -1,0 +1,17 @@
+ zap_scan_cluster:
+    runs-on: ubuntu-latest
+    name: Scan k8s cluster
+    steps:
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.2.0
+        with:
+          issue_title: Vulnerability Scan Results
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: owasp/zap2docker-weekly
+          target: https://cluster.ironpeak.be/
+          rules_file_name: .github/zap.ignore
+          cmd_options: '-a'
+          
+          http_login_form: '/app/login'
+          http_login_http_username: 'testuser'
+          http_login_http_password: ${{ secrets.ZAP_USER_PW }}
